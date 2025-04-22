@@ -53,6 +53,8 @@ model = MultiTaskSentenceTransformer(
 for param in model.encoder.backbone.parameters():
     param.requires_grad = False
 
+loss_a_weight = 1
+loss_b_weight = 1
 loss_fn_task_a = nn.CrossEntropyLoss()
 loss_fn_task_b = nn.CrossEntropyLoss()
 optimizer = torch.optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=2e-5)
@@ -77,7 +79,7 @@ for epoch in range(num_epochs):
         loss_b = loss_fn_task_b(logits_b, labels_b)
         #could weigh these differently if want a focus only one over the other
         #also need to make sure they are on the same scale
-        loss = loss_a + loss_b 
+        loss = loss_a_weight*loss_a + loss_b_weight*loss_b 
 
         loss.backward()
         optimizer.step()
