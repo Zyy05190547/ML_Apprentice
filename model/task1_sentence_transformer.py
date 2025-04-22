@@ -3,6 +3,7 @@
 import torch
 import torch.nn as nn
 from transformers import AutoModel, AutoTokenizer
+import numpy as np
 
 class SentenceTransformer(nn.Module):
     def __init__(self, model_name="bert-base-uncased", pooling="mean", output_dim=256):
@@ -48,8 +49,42 @@ class SentenceTransformer(nn.Module):
 
 
 if __name__ == "__main__":
-    model = SentenceTransformer(output_dim=256)
-    sentences = ["Hello world.", "How are you doing today?", "Sentence transformers are useful!"]
-    embeddings = model(sentences)
-    print("Embeddings shape:", embeddings.shape)  # Should be (3, 256)
-    print("First sentence embedding (first 5 dims):", embeddings[0][:5])
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    sentences = [
+        "Hello world.",
+        "How are you doing today?"
+    ]
+
+    #small output dim to showcase the result
+    model_10 = SentenceTransformer(output_dim=10).to(device)
+    embeddings_10 = model_10(sentences)
+    print(f"sentence: '{sentences[0]}' --> embedding:{np.round(embeddings_10[0].detach().numpy(),4)}")
+    print(f"sentence:'{sentences[1]}' --> embedding:{np.round(embeddings_10[1].detach().numpy(),4)}") 
+
+    # Test 1: output_dim=128
+    model_128 = SentenceTransformer(output_dim=128).to(device)
+    embeddings_128 = model_128(sentences)
+    print(f"Test 1 - Output dim 128: {embeddings_128.shape}")  # (2, 128)
+
+    # Test 2: output_dim=256
+    model_256 = SentenceTransformer(output_dim=256).to(device)
+    embeddings_256 = model_256(sentences)
+    print(f"Test 2 - Output dim 256: {embeddings_256.shape}")  # (2, 256)
+
+    # Test 3: Single sentence
+    model_single = SentenceTransformer(output_dim=64).to(device)
+    embeddings_single = model_single(sentences[0])
+    print(f"Test 3 - Single sentence Output dim 64: {embeddings_single.shape}")  # (1, 64)
+
+    # Test 4: Empty input list
+    try:
+        model_empty = SentenceTransformer(output_dim=128).to(device)
+        empty_input = []
+        embeddings_empty = model_empty(empty_input)
+        print(f"Test 4 - Empty input embeddings: {embeddings_empty.shape}")
+    except Exception as e:
+        print(f"Test 4 - error: {e}")
+
+ 
+
