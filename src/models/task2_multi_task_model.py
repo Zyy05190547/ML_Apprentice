@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from model.task1_sentence_transformer import SentenceTransformer # from task1
+from .task1_sentence_transformer import SentenceTransformer
 
 class MultiTaskSentenceTransformer(nn.Module):
     def __init__(

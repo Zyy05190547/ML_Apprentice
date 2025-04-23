@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
-from model.task2_multi_task_model import MultiTaskSentenceTransformer
+from models import MultiTaskSentenceTransformer
 
 # Dummy Multi-Task Dataset
 class MultiTaskDataset(Dataset):

@@ -1,5 +1,3 @@
-# src/model/sentence_transformer.py
-
 import torch
 import torch.nn as nn
 from transformers import AutoModel, AutoTokenizer
@@ -65,26 +63,24 @@ if __name__ == "__main__":
     # Test 1: output_dim=128
     model_128 = SentenceTransformer(output_dim=128).to(device)
     embeddings_128 = model_128(sentences)
-    print(f"Test 1 - Output dim 128: {embeddings_128.shape}")  # (2, 128)
+    print(f"Test 1 -- Output dim 128: {embeddings_128.shape}")  # (2, 128)
 
     # Test 2: output_dim=256
     model_256 = SentenceTransformer(output_dim=256).to(device)
     embeddings_256 = model_256(sentences)
-    print(f"Test 2 - Output dim 256: {embeddings_256.shape}")  # (2, 256)
+    print(f"Test 2 -- Output dim 256: {embeddings_256.shape}")  # (2, 256)
 
     # Test 3: Single sentence
     model_single = SentenceTransformer(output_dim=64).to(device)
     embeddings_single = model_single(sentences[0])
-    print(f"Test 3 - Single sentence Output dim 64: {embeddings_single.shape}")  # (1, 64)
+    print(f"Test 3 -- Single sentence Output dim 64: {embeddings_single.shape}")  # (1, 64)
 
     # Test 4: Empty input list
     try:
         model_empty = SentenceTransformer(output_dim=128).to(device)
         empty_input = []
         embeddings_empty = model_empty(empty_input)
-        print(f"Test 4 - Empty input embeddings: {embeddings_empty.shape}")
+        print(f"Test 4 -- Empty input embeddings: {embeddings_empty.shape}")
     except Exception as e:
-        print(f"Test 4 - error: {e}")
-
- 
+        print(f"Test 4 -- : will show {e}")
 
