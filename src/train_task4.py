@@ -5,6 +5,9 @@ from models import MultiTaskSentenceTransformer
 
 # Dummy Multi-Task Dataset
 class MultiTaskDataset(Dataset):
+    '''
+    This class builds a dummy dataset for multi-task learning.
+    '''
     def __init__(self, sentences, task_a_labels, task_b_labels):
         self.sentences = sentences
         self.task_a_labels = task_a_labels
@@ -34,7 +37,7 @@ task_b_labels = torch.tensor([1, 0, 0, 0, 1])  # 2 sentiment classes
 
 # Build dataset and dataloader
 dataset = MultiTaskDataset(sentences, task_a_labels, task_b_labels)
-dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
+dataloader = DataLoader(dataset, batch_size=2, shuffle=True)          #small batch size for since data here is tiny
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

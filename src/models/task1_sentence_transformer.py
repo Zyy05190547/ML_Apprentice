@@ -4,6 +4,12 @@ from transformers import AutoModel, AutoTokenizer
 import numpy as np
 
 class SentenceTransformer(nn.Module):
+    '''
+    This class implements a sentence transformer using a pre-trained transformer model.
+    It uses the second to last layer of the transformer to get the feature map
+    and then applies mean pooling over the token embeddings to get the sentence embedding.
+    The output dimension can be changed to suit the needs of the downstream task.
+    '''
     def __init__(self, model_name="bert-base-uncased", pooling="mean", output_dim=256):
         super(SentenceTransformer, self).__init__()
         self.backbone = AutoModel.from_pretrained(model_name, output_hidden_states=True)

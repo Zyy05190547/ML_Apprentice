@@ -3,6 +3,14 @@ import torch.nn as nn
 from .task1_sentence_transformer import SentenceTransformer
 
 class MultiTaskSentenceTransformer(nn.Module):
+    '''
+    This class implements a multi-task sentence transformer model.
+    It uses a pre-trained transformer model as the encoder and has two task-specific heads:
+    1. Task A: Genre classification (5 classes)
+    2. Task B: Sentiment analysis (2 classes)
+    The model is designed to be trained on both tasks simultaneously.
+    The encoder is shared between the two tasks, and each task has its own MLP head.
+    '''
     def __init__(
         self,
         model_name="bert-base-uncased",
@@ -46,9 +54,8 @@ class MultiTaskSentenceTransformer(nn.Module):
 
     def forward(self, sentences):
         """
-        Forward pass:
-        - Encode sentences
-        - Predict both tasks
+        Forward pass: use the shared encoder to get the embeddings
+        and then pass them through the task-specific heads.
         """
         embeddings = self.encoder(sentences)  # shape (batch_size, projection_dim)
         
